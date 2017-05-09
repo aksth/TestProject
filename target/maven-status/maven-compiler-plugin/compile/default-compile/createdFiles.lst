@@ -1,0 +1,17 @@
+com\test\config\RootConfig.class
+com\test\service\AdminService.class
+com\test\controller\AdminController.class
+com\test\controller\RoleController.class
+com\test\entity\AdminRole.class
+com\test\repository\AdminRepository.class
+com\test\config\WebAppInitializer.class
+com\test\entity\Role.class
+com\test\service\AdminRoleService.class
+com\test\config\WebConfig.class
+com\test\repository\AdminRoleRepository.class
+com\test\service\HomeService.class
+com\test\service\RoleService.class
+com\test\config\AppConfig.class
+com\test\repository\RoleRepository.class
+com\test\entity\Admin.class
+com\test\controller\HomeController.class
