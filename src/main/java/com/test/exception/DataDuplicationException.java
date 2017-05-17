@@ -4,10 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
-/**
- * @author Nikesh Maharjan
- *         nikesh.maharjan@f1soft.com
- */
 @Getter
 @Setter
 public class DataDuplicationException extends RuntimeException {

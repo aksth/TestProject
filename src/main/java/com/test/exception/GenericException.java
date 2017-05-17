@@ -2,10 +2,6 @@ package com.test.exception;
 
 import org.springframework.http.HttpStatus;
 
-/**
- *
- * @author nikesh.maharjan
- */
 public class GenericException extends RuntimeException {
 
     private ErrorResponse errorResponse;

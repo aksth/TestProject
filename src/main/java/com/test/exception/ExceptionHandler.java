@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLException;
 
-/**
- * @author nikesh.maharjan
- */
 @RestControllerAdvice
 public class ExceptionHandler {
 
