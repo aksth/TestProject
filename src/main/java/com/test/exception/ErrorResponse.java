@@ -7,10 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
-/**
- *
- * @author nikesh.maharjan
- */
 @Getter
 @Setter
 public class ErrorResponse {
