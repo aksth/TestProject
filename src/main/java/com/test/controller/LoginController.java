@@ -1,19 +1,18 @@
 package com.test.controller;
 
-import com.test.dto.FormSubmitDTO;
 import com.test.dto.LoginDTO;
-import com.test.dto.LoginResponseDTO;
+import com.test.dto.AuthResponseDTO;
 import com.test.entity.Admin;
 import com.test.entity.AdminRole;
 import com.test.service.AdminRoleService;
 import com.test.service.AdminService;
+import com.test.service.JwtTokenService;
 import com.test.uitility.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
@@ -27,14 +26,21 @@ import java.util.List;
 @RestController
 public class LoginController {
 
-    @Autowired
     AdminService adminService;
+    AdminRoleService adminRoleService;
+    JwtTokenService jwtTokenService;
 
     @Autowired
-    AdminRoleService adminRoleService;
+    LoginController(AdminService adminService, AdminRoleService adminRoleService, JwtTokenService jwtTokenService){
+        this.adminService = adminService;
+        this.adminRoleService = adminRoleService;
+        this.jwtTokenService = jwtTokenService;
+    }
 
     @PostMapping("/loginUser")
-    public ResponseEntity<LoginResponseDTO> submit(@RequestBody LoginDTO dto, HttpServletResponse httpServletResponse){
+    public ResponseEntity<AuthResponseDTO> submit(@RequestBody LoginDTO dto, HttpServletResponse httpServletResponse){
+
+        String token = "";
 
         Admin admin = adminService.getAdminByUsername(dto.getUsername());
 
@@ -43,23 +49,31 @@ public class LoginController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        token = jwtTokenService.generateToken(
+                admin.getId(),
+                admin.getName(),
+                admin.getUsername(),
+                adminRoleService.getRoleIdByAdminId(admin.getId())
+        );
+
+        Cookie tokenCookie = new Cookie("tid", token);
+
+        tokenCookie.setHttpOnly(true);
+        tokenCookie.setSecure(true);
+        httpServletResponse.addCookie(tokenCookie);
+
         List<AdminRole> adminRoles = adminRoleService.getRoleByAdminId(admin.getId());
         List adminRoleIds = new ArrayList();
         for(AdminRole ar : adminRoles){
             adminRoleIds.add(ar.getRole().getId());
         }
 
-        LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-        loginResponseDTO.setId(admin.getId());
-        loginResponseDTO.setName(admin.getName());
-        loginResponseDTO.setUsername(admin.getUsername());
-        loginResponseDTO.setRoles(adminRoleIds);
+        AuthResponseDTO authResponseDTO = new AuthResponseDTO();
+        authResponseDTO.setId(admin.getId());
+        authResponseDTO.setName(admin.getName());
+        authResponseDTO.setUsername(admin.getUsername());
+        authResponseDTO.setRoles(adminRoleIds);
 
-        Cookie id = new Cookie("id","1");
-        id.setHttpOnly(true);
-        id.setSecure(true);
-        httpServletResponse.addCookie(id);
-
-        return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
+        return new ResponseEntity<>(authResponseDTO, HttpStatus.OK);
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class LoginResponseDTO {
+public class AuthResponseDTO {
     private Long id;
     private String name;
     private String username;
