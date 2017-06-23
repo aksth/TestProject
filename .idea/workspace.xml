@@ -8,9 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c5ed14c4-d262-4552-8030-32d9a1d70eb6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/test/service/JwtTokenService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/test/controller/LoginController.java" afterPath="$PROJECT_DIR$/src/main/java/com/test/controller/LoginController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -1482,7 +1480,7 @@
       <workItem from="1496902365594" duration="3527000" />
       <workItem from="1496981306654" duration="1215000" />
       <workItem from="1497416183322" duration="486000" />
-      <workItem from="1498191106848" duration="4418000" />
+      <workItem from="1498191106848" duration="4571000" />
     </task>
     <task id="LOCAL-00001" summary="noth">
       <created>1495004840535</created>
@@ -1495,7 +1493,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="210810000" />
+    <option name="totallyTimeSpent" value="210963000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
