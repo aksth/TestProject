@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+	<!-- the font-name used within the jasper report -->
+	<fontFamily name="SomeSpecialFont">
+		<!-- the actual font files within the jar -->
+		<normal>fonts/ELEPHNT.TTF</normal>
+		<bold>fonts/ELEPHNT.TTF</bold>
+		<italic>fonts/ELEPHNT.TTF</italic>
+		<boldItalic>fonts/ELEPHNT.TTF</boldItalic>
+		<!-- make jasper embed the font -->
+        <pdfEmbedded>true</pdfEmbedded>
+	</fontFamily>
+</fontFamilies>

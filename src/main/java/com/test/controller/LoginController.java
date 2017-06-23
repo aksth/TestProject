@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class LoginController {
     AdminRoleService adminRoleService;
 
     @PostMapping("/loginUser")
-    public ResponseEntity<LoginResponseDTO> submit(@RequestBody LoginDTO dto){
+    public ResponseEntity<LoginResponseDTO> submit(@RequestBody LoginDTO dto, HttpServletResponse httpServletResponse){
 
         Admin admin = adminService.getAdminByUsername(dto.getUsername());
 
@@ -52,6 +54,11 @@ public class LoginController {
         loginResponseDTO.setName(admin.getName());
         loginResponseDTO.setUsername(admin.getUsername());
         loginResponseDTO.setRoles(adminRoleIds);
+
+        Cookie id = new Cookie("id","1");
+        id.setHttpOnly(true);
+        id.setSecure(true);
+        httpServletResponse.addCookie(id);
 
         return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
     }

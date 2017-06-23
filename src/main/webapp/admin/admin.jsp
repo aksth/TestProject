@@ -59,7 +59,7 @@
                 <td>{{item.admin.gender}}</td>
                 <td>{{item.admin.dob}}</td>
                 <td>{{item.admin.username}}</td>
-                <td>{{item.admin.email}}</td>
+                <td>{{item.admin.email}}<p content="{{item.admin.email}}"></p></td>
                 <td><span ng-repeat="role in item.roles">{{role.name}}, </span></td>
                 <td ng-hide="formCtrl.currentUserRoles.indexOf(2) == -1"><button ng-click="formCtrl.editAdmin(item); $event.stopPropagation();">Edit</button></td>
                 <td ng-hide="formCtrl.currentUserRoles.indexOf(2) == -1"><button ng-click="formCtrl.deleteAdmin(item.admin.id); $event.stopPropagation();">Delete</button></td>

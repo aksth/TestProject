@@ -12,7 +12,15 @@ angular.module('MyApp').config(function ($routeProvider) {
             controller: 'FormController as formCtrl',
             templateUrl: 'admin/admin.jsp'
         })
-
+        .when('/test',{
+            controller: 'TestController as testCtrl',
+            templateUrl: 'test/test.jsp',
+            resolve:{
+                user:function(){
+                    return
+                }
+            }
+        })
         .otherwise({redirectTo: '/login'});
 
 });
