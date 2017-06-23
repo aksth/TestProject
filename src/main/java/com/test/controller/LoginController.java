@@ -40,7 +40,7 @@ public class LoginController {
 
         //halt if username invalid or password incorrect
         if(admin == null || !BCrypt.checkpw(dto.getPassword(),admin.getPassword())){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         List<AdminRole> adminRoles = adminRoleService.getRoleByAdminId(admin.getId());
