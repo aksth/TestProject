@@ -33,6 +33,7 @@
 
     <script src="admin/controller/FormController.js"></script>
     <script src="login/controller/LoginController.js"></script>
+    <script src="test/controller/TestController.js"></script>
 
     <script src="admin/modal/controller/EditAdminController.js"></script>
     <script src="admin/modal/controller/DetailAdminController.js"></script>
