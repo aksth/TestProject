@@ -3,10 +3,11 @@ angular.module('MyApp').controller('LoginController',LoginController);
 LoginController.$inject = [
     'LoginService',
     '$localStorage',
-    '$location'
+    '$location',
+    '$routeParams'
 ];
 
-function LoginController(LoginService, $localStorage, $location){
+function LoginController(LoginService, $localStorage, $location, $routeParams){
     vm = this;
 
     vm.loginData = {
@@ -28,7 +29,7 @@ function LoginController(LoginService, $localStorage, $location){
                     $localStorage.currentUserName = data.name;
                     $localStorage.currentUserUsername = data.username;
                     $localStorage.currentUserRoles = data.roles;
-                    $location.path('/admin');
+                    $location.path(decodeURIComponent($routeParams.next));
                 },
                 function(errMsg){
                     vm.errorMsg = "Invalid username/password!";

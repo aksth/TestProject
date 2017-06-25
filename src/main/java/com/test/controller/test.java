@@ -15,21 +15,25 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
+import java.util.*;
+import java.math.BigInteger;
 
 /**
  * Created by intern1 on 5/17/2017.
  */
 public class test {
     public static void main (String args[]){
+
+        SecureRandom random = new SecureRandom();
+        BigInteger bigInteger = new BigInteger(130, random);
+        System.out.println(bigInteger.toString(32));
+
+
 
 //        Iterator it = FileUtils.iterateFiles(new File("D:/akash/node/erpJS/src"), null, false);
 //        while(it.hasNext()){
@@ -38,33 +42,33 @@ public class test {
 //            System.out.println("'dist/"+name+", ");
 //        }
 
-        String token = "";
-        try {
-            Algorithm algorithm = Algorithm.HMAC256("hello");
-
-            token = JWT.create()
-                    .withClaim("userId",45)
-                    .withClaim("loggedIn",true)
-                    .withClaim("adminType","A")
-                    .withIssuer("auth0")
-                    .sign(algorithm);
-
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .build(); //Reusable verifier instance
-
-            DecodedJWT jwt = verifier.verify(token);
-
-            System.out.println(token);
-            System.out.println(jwt.getClaim("userId").asLong());
-            System.out.println(jwt.getClaim("loggedIn").asBoolean());
-            System.out.println(jwt.getClaim("adminType").asString());
-
-        } catch (UnsupportedEncodingException exception){
-            //UTF-8 encoding not supported
-        } catch (JWTCreationException exception){
-            //Invalid Signing configuration / Couldn't convert Claims.
-        }
+//        String token = "";
+//        try {
+//            Algorithm algorithm = Algorithm.HMAC256("hello");
+//
+//            token = JWT.create()
+//                    .withClaim("userId",45)
+//                    .withClaim("loggedIn",true)
+//                    .withClaim("adminType","A")
+//                    .withIssuer("auth0")
+//                    .sign(algorithm);
+//
+//            JWTVerifier verifier = JWT.require(algorithm)
+//                    .withIssuer("auth0")
+//                    .build(); //Reusable verifier instance
+//
+//            DecodedJWT jwt = verifier.verify(token);
+//
+//            System.out.println(token);
+//            System.out.println(jwt.getClaim("userId").asLong());
+//            System.out.println(jwt.getClaim("loggedIn").asBoolean());
+//            System.out.println(jwt.getClaim("adminType").asString());
+//
+//        } catch (UnsupportedEncodingException exception){
+//            //UTF-8 encoding not supported
+//        } catch (JWTCreationException exception){
+//            //Invalid Signing configuration / Couldn't convert Claims.
+//        }
 
 
         /*

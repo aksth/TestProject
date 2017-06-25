@@ -16,19 +16,15 @@ import java.io.UnsupportedEncodingException;
 @Service
 public class JwtTokenService {
 
-    Algorithm algorithm;
 
-    JwtTokenService(){
-        try {
-            algorithm = Algorithm.HMAC256("akash");
-        }catch (UnsupportedEncodingException e){}
-    }
-
-    public String generateToken(long userId, String name, String username, Long[] roles){
+    public String generateToken(long userId, String name, String username, Long[] roles, String secret){
 
         String token = "";
 
         try {
+
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+
             token = JWT.create()
                     .withClaim("userId",userId)
                     .withClaim("loggedIn",true)
@@ -39,25 +35,33 @@ public class JwtTokenService {
                     .sign(algorithm);
         } catch (JWTCreationException exception){
             //Invalid Signing configuration / Couldn't convert Claims.
+        }catch (UnsupportedEncodingException e){
+
         }
 
         return token;
     }
 
-    public DecodedJWT decodedJWT(String token){
+    public DecodedJWT decodedJWT(String token, String secret){
 
-        DecodedJWT jwt;
+        DecodedJWT jwt = null;
 
         try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer("auth0")
                     .build(); //Reusable verifier instance
 
             jwt = verifier.verify(token);
 
+            return jwt;
+
         }catch(JWTVerificationException e){
             System.out.println("Invalid Token");
             return null;
+        }catch (UnsupportedEncodingException e){
+
         }
 
         return jwt;

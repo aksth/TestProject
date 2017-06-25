@@ -38,4 +38,6 @@ public class Admin {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "secret")
+    private String secret;
 }

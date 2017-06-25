@@ -30,6 +30,7 @@
 
     <script src="service/HttpService.js"></script>
     <script src="service/JqueryUIDatePicker.js"></script>
+    <script src="service/AuthService.js"></script>
 
     <script src="admin/controller/FormController.js"></script>
     <script src="login/controller/LoginController.js"></script>

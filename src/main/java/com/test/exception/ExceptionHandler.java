@@ -21,4 +21,9 @@ public class ExceptionHandler {
     public ResponseEntity<ErrorResponse> handleDataDuplicationException(DataDuplicationException e) {
         return new ResponseEntity<>(e.getErrorResponse(), HttpStatus.CONFLICT);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnautorizedException(UnauthorizedException e) {
+        return new ResponseEntity<>(e.getErrorResponse(), HttpStatus.UNAUTHORIZED);
+    }
 }
