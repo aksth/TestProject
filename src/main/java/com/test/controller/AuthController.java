@@ -2,8 +2,10 @@ package com.test.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.test.dto.AuthResponseDTO;
+import com.test.entity.Admin;
 import com.test.exception.DataDuplicationException;
 import com.test.exception.UnauthorizedException;
+import com.test.service.AdminService;
 import com.test.service.JwtTokenService;
 import net.sf.jasperreports.web.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,12 @@ import java.util.Map;
 public class AuthController {
 
     JwtTokenService jwtTokenService;
+    AdminService adminService;
 
     @Autowired
-    AuthController(JwtTokenService jwtTokenService){
+    AuthController(JwtTokenService jwtTokenService, AdminService adminService){
         this.jwtTokenService = jwtTokenService;
+        this.adminService = adminService;
     }
 
     @GetMapping("/auth")
@@ -45,6 +49,7 @@ public class AuthController {
 //        Cookie tokenCookie = cookieMap.get("tid");
 
         Cookie tokenCookie = WebUtils.getCookie(httpServletRequest, "tid");
+        Cookie currentUserCookie = WebUtils.getCookie(httpServletRequest, "currentUser");
 
         if(tokenCookie == null){
             throw new UnauthorizedException("Authorization error",
@@ -52,15 +57,17 @@ public class AuthController {
         }
 
         String token = tokenCookie.getValue();
+        String currentUser = currentUserCookie.getValue();
 
-        DecodedJWT decodedJWT = jwtTokenService.decodedJWT(token);
+        Admin user = adminService.getAdminById(Long.parseLong(currentUser));
+
+        DecodedJWT decodedJWT = jwtTokenService.decodedJWT(token, user.getSecret());
 
         if(decodedJWT == null){
             throw new UnauthorizedException("Authorization error",
                     "Auth error, invalid token.");
         }
 
-        List<Long> longList = null;
         AuthResponseDTO authResponseDTO = new AuthResponseDTO();
         authResponseDTO.setId(decodedJWT.getClaim("userId").asLong());
         authResponseDTO.setName(decodedJWT.getClaim("name").asString());

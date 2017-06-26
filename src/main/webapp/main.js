@@ -8,13 +8,12 @@ angular.module('MyApp').config(['$routeProvider', function ($routeProvider) {
             controller: 'LoginController as loginCtrl',
             templateUrl: 'login/login.jsp',
             resolve:{
-                user:['AuthService','$q', function(AuthService, $q){
-                    var deferred = $q.defer();
+                currentUser:['AuthService', function(AuthService){
                     return AuthService.getUser()
                         .then(function(response){
-                            return $q.reject(response);
+                            throw "authenticationError"
                         },function(response){
-                            return $q.resolve(response);
+                            return response;
                         })
                 }]
             }
@@ -23,7 +22,7 @@ angular.module('MyApp').config(['$routeProvider', function ($routeProvider) {
             controller: 'FormController as formCtrl',
             templateUrl: 'admin/admin.jsp',
             resolve:{
-                user:['AuthService', function(AuthService){
+                currentUser:['AuthService', function(AuthService){
                     return AuthService.getUser();
                 }]
             }
@@ -32,10 +31,21 @@ angular.module('MyApp').config(['$routeProvider', function ($routeProvider) {
             controller: 'TestController as testCtrl',
             templateUrl: 'test/test.jsp',
             resolve:{
-                user:['AuthService', function(AuthService){
-                    return AuthService.getUser();
+                currentUser:['AuthService', function(AuthService){
+                    return AuthService.getUser()
+                        .then(function(user){
+                            if(user.roles.indexOf(3) == -1){
+                                throw "authorizationError";
+                            }else{
+                                return user;
+                            }
+                        });
                 }]
             }
+        })
+        .when('/unauthorized',{
+            controller: 'UnauthorizedController as unauthorizedCtrl',
+            templateUrl: 'unauthorized/unauthorized.jsp',
         })
         .otherwise({redirectTo: '/login'});
 
@@ -66,8 +76,10 @@ angular.module('MyApp').run(function ($rootScope, $localStorage, $location) {
     $rootScope.$on('$routeChangeError',function(angularEvent, current, previous, rejection){
         if(rejection.status == 401) {
             $location.path('/login').search({next:current.$$route.originalPath});
-        }else if(rejection.id){
-            $location.path('/admin');
+        } else if(rejection == "authorizationError"){
+            $location.path('/unauthorized');
+        } else if(rejection == "authenticationError"){
+            $location.path('/admin').search('next', null);
         }
 
     });

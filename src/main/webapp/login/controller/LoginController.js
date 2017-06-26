@@ -2,12 +2,11 @@ angular.module('MyApp').controller('LoginController',LoginController);
 
 LoginController.$inject = [
     'LoginService',
-    '$localStorage',
     '$location',
     '$routeParams'
 ];
 
-function LoginController(LoginService, $localStorage, $location, $routeParams){
+function LoginController(LoginService, $location, $routeParams){
     vm = this;
 
     vm.loginData = {
@@ -24,12 +23,11 @@ function LoginController(LoginService, $localStorage, $location, $routeParams){
         LoginService.login(vm.loginData)
             .then(
                 function(data){
-                    $localStorage.isLoggedIn = true;
-                    $localStorage.currentUser = data.id;
-                    $localStorage.currentUserName = data.name;
-                    $localStorage.currentUserUsername = data.username;
-                    $localStorage.currentUserRoles = data.roles;
-                    $location.path(decodeURIComponent($routeParams.next));
+                    if($routeParams.next != undefined && $routeParams.next != '') {
+                        $location.path(decodeURIComponent($routeParams.next)).search('next', null);
+                    }else{
+                        $location.path('/admin');
+                    }
                 },
                 function(errMsg){
                     vm.errorMsg = "Invalid username/password!";

@@ -3,6 +3,7 @@ package com.test.controller;
 import com.test.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,14 +23,26 @@ public class LogoutController {
     public ResponseEntity logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
         Cookie tokenCookie = WebUtils.getCookie(httpServletRequest, "tid");
+        Cookie currentUserCookie = WebUtils.getCookie(httpServletRequest, "currentUser");
+        Cookie xsrfCookie = WebUtils.getCookie(httpServletRequest, "XSRF-TOKEN");
 
-        if(tokenCookie == null){
-            return new ResponseEntity(HttpStatus.OK);
+        if(tokenCookie != null) {
+            tokenCookie.setValue("");
+            tokenCookie.setMaxAge(0);
+            httpServletResponse.addCookie(tokenCookie);
         }
 
-        tokenCookie.setValue("");
-        tokenCookie.setMaxAge(0);
-        httpServletResponse.addCookie(tokenCookie);
+        if(tokenCookie != null) {
+            currentUserCookie.setValue("");
+            currentUserCookie.setMaxAge(0);
+            httpServletResponse.addCookie(currentUserCookie);
+        }
+
+        if(xsrfCookie != null) {
+            xsrfCookie.setValue("");
+            xsrfCookie.setMaxAge(0);
+            httpServletResponse.addCookie(xsrfCookie);
+        }
 
         return new ResponseEntity(HttpStatus.OK);
     }

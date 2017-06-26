@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,18 +51,37 @@ public class LoginController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        SecureRandom random = new SecureRandom();
+        BigInteger bigInteger = new BigInteger(130, random);
+        String secret = bigInteger.toString(32);
+        admin.setSecret(secret);
+
+        random = new SecureRandom();
+        bigInteger = new BigInteger(130, random);
+        String xsrf = bigInteger.toString(32);
+        admin.setXsrf(xsrf);
+
+        adminService.createAdmin(admin);
+
         token = jwtTokenService.generateToken(
                 admin.getId(),
                 admin.getName(),
                 admin.getUsername(),
                 adminRoleService.getRoleIdByAdminId(admin.getId())
-        );
+        , secret);
 
         Cookie tokenCookie = new Cookie("tid", token);
-
         tokenCookie.setHttpOnly(true);
         tokenCookie.setSecure(true);
         httpServletResponse.addCookie(tokenCookie);
+
+        Cookie currentUser = new Cookie ("currentUser", Long.toString(admin.getId()));
+        currentUser.setSecure(true);
+        httpServletResponse.addCookie(currentUser);
+
+        Cookie xsrfCookie = new Cookie ("XSRF-TOKEN", xsrf);
+        xsrfCookie.setSecure(true);
+        httpServletResponse.addCookie(xsrfCookie);
 
         List<AdminRole> adminRoles = adminRoleService.getRoleByAdminId(admin.getId());
         List adminRoleIds = new ArrayList();

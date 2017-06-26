@@ -40,4 +40,7 @@ public class Admin {
 
     @Column(name = "secret")
     private String secret;
+
+    @Column(name="xsrf")
+    private String xsrf;
 }

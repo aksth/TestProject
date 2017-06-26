@@ -5,12 +5,12 @@ FormController.$inject = [
     'RoleService',
     '$uibModal',
     'LogoutService',
-    '$localStorage',
-    '$scope'
+    '$scope',
+    'currentUser'
 
 ];
 
-function FormController(AdminService, RoleService, $uibModal, LogoutService, $localStorage, $scope){
+function FormController(AdminService, RoleService, $uibModal, LogoutService, $scope, currentUser){
 
     var vm = this;
 
@@ -34,8 +34,8 @@ function FormController(AdminService, RoleService, $uibModal, LogoutService, $lo
     vm.roleList = [];
     vm.roleListMapping = {};
 
-    vm.currentUserName = $localStorage.currentUserName;
-    vm.currentUserRoles = $localStorage.currentUserRoles;
+    vm.currentUserName = currentUser.name;
+    vm.currentUserRoles = currentUser.roles;
 
     vm.fetchAllAdmin = fetchAllAdmin;
     vm.fetchAllRole = fetchAllRole;

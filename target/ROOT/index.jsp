@@ -35,6 +35,7 @@
     <script src="admin/controller/FormController.js"></script>
     <script src="login/controller/LoginController.js"></script>
     <script src="test/controller/TestController.js"></script>
+    <script src="unauthorized/controller/UnauthorizedController.js"></script>
 
     <script src="admin/modal/controller/EditAdminController.js"></script>
     <script src="admin/modal/controller/DetailAdminController.js"></script>
@@ -43,8 +44,6 @@
     <link rel="stylesheet" href="css/jquery-ui.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/ng-img-crop.css"/>
-
-
 
 </head>
 <body ng-app="MyApp">
