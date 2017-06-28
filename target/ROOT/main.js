@@ -52,26 +52,7 @@ angular.module('MyApp').config(['$routeProvider', function ($routeProvider) {
 }]);
 
 //run function for the application
-angular.module('MyApp').run(function ($rootScope, $localStorage, $location) {
-
-    //checking if the user is logged in or not.
-    // if (angular.isUndefined($localStorage.loggedIn)) {
-    //     $rootScope.isLoggedIn = false;
-    // } else {
-    //     $rootScope.isLoggedIn = true;
-    // }
-
-    // $rootScope.$on('$locationChangeStart', function (event, next, current) {
-    //     if ($location.path() === '/test') {
-    //         $location.path('/test');
-    //     } else if ($location.path() === '/login' && $localStorage.isLoggedIn) {
-    //         $location.path('/admin');
-    //     } else if ($localStorage.isLoggedIn === undefined) {
-    //         $location.path('/login');
-    //     } else if ($localStorage.isLoggedIn === false) {
-    //         $location.path('/login');
-    //     }
-    // });
+angular.module('MyApp').run(['$rootScope', '$localStorage', '$location', function ($rootScope, $localStorage, $location) {
 
     $rootScope.$on('$routeChangeError',function(angularEvent, current, previous, rejection){
         if(rejection.status == 401) {
@@ -84,4 +65,4 @@ angular.module('MyApp').run(function ($rootScope, $localStorage, $location) {
 
     });
 
-});
+}]);
